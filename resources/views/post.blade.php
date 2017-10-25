@@ -29,7 +29,7 @@
 	<div class="col-md-12">
 		<div class="panel panel-default">
   		<div class="panel-body">
-				<form method="post" action="/comment">
+				<form method="post" action="{{ route('comment.store') }}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="post_id" value="{{ $post->id }}">
 				  <div class="form-group">
