@@ -1,12 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
 use Auth;
 use App\Post;
-
+use Validator;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class PostController extends Controller {
 
@@ -31,19 +29,30 @@ class PostController extends Controller {
 		return view('create');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
 	public function store(Request $request)
 	{
-		//
-		$post = new Post;
-		$post->title = $request->input('title');
-		$post->body = $request->input('body');
-		$post->user_id = Auth::user()->id;
-		$post->save();
+        $v = Validator::make($request->all(), [
+            'title' => 'required|unique|max:255',
+            'body' => 'required',
+        ]);
+
+        if ($v->fails())
+        {
+            return redirect()->back()->withErrors($v->errors());
+        }
+
+		Post::create(
+            array_merge(
+                $request->all(),
+                [ 'user_id' => Auth::user()->id ]
+            )
+        );
 		return redirect('/');
 	}
 
