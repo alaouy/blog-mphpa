@@ -31,7 +31,7 @@
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/">Home</a></li>
             @if (Auth::check())
-              <li role="presentation"><a href="/post/create">New</a></li>
+              <li role="presentation"><a href="{{ route('post.create') }}">New</a></li>
               <li role="presentation"><a href="/auth/logout">Logout</a></li>
             @else
               <li role="presentation"><a href="/auth/login">Login</a></li>
@@ -47,7 +47,7 @@
       </div>
 
       <footer class="footer">
-        <p>&copy; MPHPA 2015</p>
+        <p>&copy; MPHPA {{ date('Y') }}</p>
       </footer>
 
     </div> <!-- /container -->
